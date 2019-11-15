@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const WebpackBar = require("webpackbar");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
@@ -168,6 +169,10 @@ module.exports = {
 
   plugins: [
     new WebpackBar(),
+    new CleanWebpackPlugin({
+      verbose: true,
+      dry: false
+    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(ENV)
     }),
@@ -197,7 +202,7 @@ module.exports = {
     contentBase: paths.SOURCE_DIR,
     open: true, // 自动打开页面
     hot: true, // 开启热更新
-    inline: true, // inline 自动刷新模式
+    inline: true, // 设置热更新刷新模式为 inline
     compress: true, // 一切服务都启用 gzip 压缩
     historyApiFallback: true, // 当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html
     overlay: {
