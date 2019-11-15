@@ -1,0 +1,51 @@
+@import "./helper.less";
+
+*::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+html {
+  // 根元素大小使用 vw 单位
+  font-size: (@vw_fontsize / (@vw_design / 2)) * 100vw;
+
+  // 同时，通过 Media Queries 限制根元素最大最小值
+  @media screen and (max-width: 320px) {
+    font-size: 64px;
+  }
+
+  @media screen and (min-width: 540px) {
+    font-size: 108px;
+  }
+}
+
+// body 也增加最大最小宽度限制，避免默认 100% 宽度的 block 元素跟随 body 而过大过小
+body {
+  margin: auto;
+  min-width: 320px;
+  max-width: 540px;
+  background-color: #ffffff;
+}
+
+:global {
+  @supports (-webkit-overflow-scrolling: touch) {
+    /* CSS specific to iOS devices */
+    .am-list-item .am-input-control input:disabled {
+      color: #000000 !important;
+    }
+  }
+
+  // 标题左竖线样式
+  .title-left-border {
+    margin-right: 7px;
+    width: 4px;
+    height: 1.15em;
+    border-radius: 1px;
+    background: #108ee9;
+  }
+}

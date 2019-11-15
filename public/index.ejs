@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,  user-scalable=no" />
+    <!-- 根据 webpack 配置来决定应用是否可以被搜索引擎检索。更多信息请查阅：https://developers.google.cn/search/reference/robots_meta_tag?hl=zh-cn -->
+    <% if (htmlWebpackPlugin.options.IS_SEO_ENABLED) { %>
+    <meta name="robots" content="index, follow" />
+    <% } else { %>
+    <meta name="robots" content="noindex, nofollow" />
+    <% } %>
+
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+    <% for (var chunk in htmlWebpackPlugin.files.css) { %>
+    <link rel="preload" href="<%= htmlWebpackPlugin.files.css[chunk] %>" as="style" />
+    <% } %> <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+    <link rel="preload" href="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" as="script" />
+    <% } %>
+
+    <script src="//as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js" async></script>
+    <script>
+        if ("addEventListener" in document) {
+            document.addEventListener(
+                "DOMContentLoaded",
+                function () {
+                    FastClick.attach(document.body);
+                },
+                false
+            );
+        }
+        if (!window.Promise) {
+            document.writeln(
+                '<script async src="//as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"' +
+                ">" +
+                "<" +
+                "/" +
+                "script>"
+            );
+        }
+    </script>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+
+</html>
