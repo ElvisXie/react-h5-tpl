@@ -1,18 +1,18 @@
-import { lazy } from "react";
+import { lazy } from 'react';
 
-const Home = lazy(() => import("@/pages/home"));
+const Home = lazy(() => import('@/pages/home'));
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     exact: true,
-    title: "首页",
+    title: '首页',
     component: Home
   },
   {
-    path: "/h5/home",
+    path: '/h5/home',
     exact: true,
-    title: "首页",
+    title: '首页',
     component: Home
   }
 ];

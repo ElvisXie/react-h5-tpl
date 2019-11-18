@@ -1,19 +1,14 @@
-import {
-  createStore as createReduxStore,
-  applyMiddleware,
-  compose,
-  combineReducers
-} from "redux";
-import { connectRouter, routerMiddleware } from "connected-react-router";
-import thunk from "redux-thunk";
-import routes from "@/route/routes";
-import reducers from "./reducers";
+import { createStore as createReduxStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import thunk from 'redux-thunk';
+import routes from '@/route/routes';
+import reducers from './reducers';
 
 function createStore(history, preloadedState = {}) {
   // 增强器初始化
   let composeEnhancers = compose;
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     // eslint-disable-next-line no-underscore-dangle
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   }

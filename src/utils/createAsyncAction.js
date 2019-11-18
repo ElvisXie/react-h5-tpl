@@ -1,4 +1,4 @@
-import { Toast } from 'antd-mobile';
+// import { Toast } from 'antd-mobile';
 
 function createAsyncAction(name, callback, meta = {}) {
   if (typeof callback !== 'function') {
@@ -25,7 +25,7 @@ function createAsyncAction(name, callback, meta = {}) {
             return action;
           }
 
-          Toast.fail(value.message);
+          // Toast.fail(value.message);
           return Promise.reject(value);
         })
         .catch((err) => {
@@ -47,7 +47,7 @@ function createAsyncAction(name, callback, meta = {}) {
         error: true
       };
 
-      Toast.fail(err.message);
+      // Toast.fail(err.message);
       dispatch(action);
       return Promise.resolve(action);
     }

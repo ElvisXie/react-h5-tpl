@@ -1,0 +1,18 @@
+# 🎨 editorconfig.org
+
+# 表明是最顶层的配置文件
+root = true
+
+[*]
+# 编码格式
+charset = utf-8
+# 定义换行符
+end_of_line = lf
+# 缩进方式
+indent_style = space
+# 缩进空格数
+indent_size = 2
+# 是否去处行首行尾的空白字符
+trim_trailing_whitespace = true
+# 文件是否以空白行结尾
+insert_final_newline = true

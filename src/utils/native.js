@@ -1,4 +1,4 @@
-import { isAndroid, isiOS } from "@/utils/util";
+import { isAndroid, isiOS } from '@/utils/util';
 
 /**
  * iOS WKWebView 与 JS 交互：
@@ -14,19 +14,19 @@ import { isAndroid, isiOS } from "@/utils/util";
  */
 const login = () => {
   if (isAndroid) {
-    console.log("Android 平台");
+    console.log('Android 平台');
     try {
       window.android.login();
     } catch (error) {
-      console.debug("执行 login 方法出错了：");
+      console.debug('执行 login 方法出错了：');
       console.error(error);
     }
   } else if (isiOS) {
-    console.log("iOS 平台");
+    console.log('iOS 平台');
     try {
-      window.webkit.messageHandlers.login.postMessage("");
+      window.webkit.messageHandlers.login.postMessage('');
     } catch (error) {
-      console.debug("执行 login 方法出错了：");
+      console.debug('执行 login 方法出错了：');
       console.error(error);
     }
   }

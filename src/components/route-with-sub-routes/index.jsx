@@ -1,15 +1,15 @@
-import React, { lazy, Suspense } from "react";
-import { Route, Redirect } from "react-router-dom";
-import Cookie from "js-cookie";
-import Loading from "@/components/loading";
+import React, { lazy, Suspense } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import Cookie from 'js-cookie';
+import Loading from '@/components/loading';
 
 // const Login = lazy(() => import("@/pages/login"));
 
-const RouteWithSubRoutes = route => (
+const RouteWithSubRoutes = (route) => (
   <Route
     path={route.path}
     exact={route.exact}
-    render={props => {
+    render={(props) => {
       document.title = route.title;
       // 判断是否需要重定向，优先级最高
       if (route.redirect) {
@@ -30,8 +30,8 @@ const RouteWithSubRoutes = route => (
       // }
 
       // 登录界面特殊处理，已登录状态下重定向回首页
-      if (route.path === "/login") {
-        const token = Cookie.get("x-auth-token");
+      if (route.path === '/login') {
+        const token = Cookie.get('x-auth-token');
 
         return token ? (
           <Redirect to="/" />

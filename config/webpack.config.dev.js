@@ -1,14 +1,14 @@
-const webpack = require("webpack");
-const merge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
-const postcssPresetEnv = require("postcss-preset-env");
-const paths = require("./paths");
-const webapckBase = require("./webpack.config.base");
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
+const postcssPresetEnv = require('postcss-preset-env');
+const paths = require('./paths');
+const webapckBase = require('./webpack.config.base');
 
 module.exports = merge(webapckBase, {
-  mode: "development",
-  devtool: "eval-source-map",
+  mode: 'development',
+  devtool: 'eval-source-map',
 
   module: {
     rules: [
@@ -18,28 +18,28 @@ module.exports = merge(webapckBase, {
         exclude: paths.NODE_MODULES_DIR,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              injectType: "singletonStyleTag"
+              injectType: 'singletonStyleTag'
             }
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               // 开启 css module
               modules: {
-                localIdentName: "[path][name]__[local]--[hash:base64:5]"
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
               }
             }
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               plugins: () => [
                 postcssFlexbugsFixes,
                 postcssPresetEnv({
                   autoprefixer: {
-                    flexbox: "no-2009"
+                    flexbox: 'no-2009'
                   },
                   stage: 3
                 })
@@ -48,14 +48,14 @@ module.exports = merge(webapckBase, {
             }
           },
           {
-            loader: "less-loader"
+            loader: 'less-loader'
           }
         ]
       },
       {
         test: /\.(woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
         use: {
-          loader: "url-loader"
+          loader: 'url-loader'
         }
       }
     ]
@@ -63,7 +63,7 @@ module.exports = merge(webapckBase, {
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: "React H5 TPL",
+      title: 'React H5 TPL',
       template: paths.HTML_TEMPLATE_PATH,
       inject: true, // script 标签的位置，true/body 为在 </body> 标签前，head 为在 <head> 里，false 表示页面不引入 js 文件
       hash: true // 是否为引入的 js 文件添加 hash 值
@@ -72,10 +72,10 @@ module.exports = merge(webapckBase, {
   ],
 
   devServer: {
-    host: "0.0.0.0", // 服务器的 ip 地址
+    host: '0.0.0.0', // 服务器的 ip 地址
     useLocalIp: true, // 允许浏览器使用本地 IP 打开
     port: process.env.PORT || 9999,
-    publicPath: "/",
+    publicPath: '/',
     contentBase: paths.SOURCE_DIR,
     open: true, // 自动打开页面
     hot: true, // 开启热更新

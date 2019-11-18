@@ -1,12 +1,12 @@
-import axios from "axios";
-import Cookie from "js-cookie";
-import { debounce } from "lodash";
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import { debounce } from 'lodash';
 // import { Toast } from "antd-mobile";
-import Native from "@/utils/native";
-import Config from "./config";
+import Native from '@/utils/native';
+import Config from './config';
 
 const debouncedFunction = debounce(
-  msg => {
+  (msg) => {
     // Toast.fail(msg);
     console.log(msg);
   },
@@ -22,21 +22,21 @@ const service = axios.create({
 
 // 添加一个请求拦截器
 service.interceptors.request.use(
-  config => {
-    const encryptToken = Cookie.get("x-auth-token");
+  (config) => {
+    const encryptToken = Cookie.get('x-auth-token');
 
     // 兼容Ie浏览器GET请求缓存
-    if (config.method === "get") {
-      config.headers["If-Modified-Since"] = 0;
+    if (config.method === 'get') {
+      config.headers['If-Modified-Since'] = 0;
     }
 
     if (encryptToken) {
       // 让每个请求携带 token，['x-auth-token'] 为自定义 key，可根据实际情况自行修改
-      config.headers["x-auth-token"] = encryptToken;
+      config.headers['x-auth-token'] = encryptToken;
     }
     return config;
   },
-  error => {
+  (error) => {
     console.error(error);
     // Toast.fail(error.message);
     return Promise.reject(error);
@@ -45,11 +45,11 @@ service.interceptors.request.use(
 
 // 添加一个响应拦截器
 service.interceptors.response.use(
-  response => {
+  (response) => {
     // 防止出现空指针异常
     try {
       if (response.data instanceof Object) {
-        if (response.data.code !== "200") {
+        if (response.data.code !== '200') {
           // // 捕获并提示后台返回的异常数据,节流防止多个弹窗
           debouncedFunction(response.data.message);
         }
@@ -59,22 +59,19 @@ service.interceptors.response.use(
 
       return response;
     } catch (error) {
-      console.error(
-        "something wrong in axios.js to catch response error",
-        error
-      );
+      console.error('something wrong in axios.js to catch response error', error);
       return response;
     }
   },
-  err => {
+  (err) => {
     if (err.response) {
       if (err.response.status !== 200) {
-        console.error("error message", err.message);
-        console.error("error respon", err.response);
+        console.error('error message', err.message);
+        console.error('error respon', err.response);
       }
       if (err.response && err.response.status === 401) {
         debouncedFunction(err.response.data.message);
-        Cookie.remove("x-auth-token");
+        Cookie.remove('x-auth-token');
         Native.login();
       }
     }

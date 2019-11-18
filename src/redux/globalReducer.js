@@ -1,12 +1,12 @@
-import { cloneDeep } from "lodash";
-import Cookie from "js-cookie";
+import { cloneDeep } from 'lodash';
+import Cookie from 'js-cookie';
 import {
   LOGIN,
   LOGOUT,
   GET_CUR_USER_INFO,
   CHANGE_CUR_LIST_VIEW,
   CHANGE_CUR_LIST_VIEW_INDEX
-} from "./globalActionTypes";
+} from './globalActionTypes';
 
 const defaultState = {
   curUser: {},
@@ -22,12 +22,12 @@ const App = (state = defaultState, action) => {
   switch (action.type) {
     // 登录
     case `${LOGIN}_SUCCESS`:
-      Cookie.set("x-auth-token", action.payload.authToken);
+      Cookie.set('x-auth-token', action.payload.authToken);
       return newState;
 
     // 注销
     case `${LOGOUT}_SUCCESS`:
-      Cookie.remove("x-auth-token");
+      Cookie.remove('x-auth-token');
       return newState;
 
     // 获取当前用户数据

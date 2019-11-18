@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Switch } from "react-router-dom";
-import { ConnectedRouter } from "connected-react-router";
-import map from "lodash/map";
-import RouteWithSubRoutes from "@/components/route-with-sub-routes";
-import routes from "./routes";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import map from 'lodash/map';
+import RouteWithSubRoutes from '@/components/route-with-sub-routes';
+import routes from './routes';
 
 const propTypes = {
   history: PropTypes.object.isRequired

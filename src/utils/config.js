@@ -1,4 +1,4 @@
-let mode = "local";
+let mode = 'local';
 
 if (process.env.NODE_ENV !== undefined) {
   mode = process.env.NODE_ENV;
@@ -7,23 +7,23 @@ if (process.env.NODE_ENV !== undefined) {
 const baseUrl = {
   // 本地环境
   local: {
-    baseUrl: "",
-    ssoUrl: ""
+    baseUrl: '',
+    ssoUrl: ''
   },
   // 开发环境
   dev: {
-    baseUrl: "protocol://host",
-    ssoUrl: "protocol://host"
+    baseUrl: 'protocol://host',
+    ssoUrl: 'protocol://host'
   },
   // QA 测试环境
   qa: {
-    baseUrl: "protocol://host",
-    ssoUrl: "protocol://host"
+    baseUrl: 'protocol://host',
+    ssoUrl: 'protocol://host'
   },
   // 生产环境
   production: {
-    baseUrl: "protocol://host",
-    ssoUrl: "protocol://host"
+    baseUrl: 'protocol://host',
+    ssoUrl: 'protocol://host'
   }
 };
 export default {

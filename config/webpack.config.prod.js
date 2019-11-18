@@ -1,18 +1,18 @@
-const merge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
-const postcssPresetEnv = require("postcss-preset-env");
-const CssNano = require("cssnano");
-const paths = require("./paths");
+const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
+const postcssPresetEnv = require('postcss-preset-env');
+const CssNano = require('cssnano');
+const paths = require('./paths');
 
-const webapckBase = require("./webpack.config.base");
+const webapckBase = require('./webpack.config.base');
 
 module.exports = merge(webapckBase, {
-  mode: "production",
-  devtool: "source-map",
+  mode: 'production',
+  devtool: 'source-map',
 
   // 对各种文件类型（模块）进行处理
   module: {
@@ -23,22 +23,22 @@ module.exports = merge(webapckBase, {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               // 开启css module
               modules: {
-                localIdentName: "[hash:base64:5]"
+                localIdentName: '[hash:base64:5]'
               }
             }
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               plugins: () => [
                 postcssFlexbugsFixes,
                 postcssPresetEnv({
                   autoprefixer: {
-                    flexbox: "no-2009"
+                    flexbox: 'no-2009'
                   },
                   stage: 3
                 })
@@ -47,17 +47,17 @@ module.exports = merge(webapckBase, {
             }
           },
           {
-            loader: "less-loader"
+            loader: 'less-loader'
           }
         ]
       },
       {
         test: /\.(woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[name].[hash:8].[ext]",
-            outputPath: "assets/images/"
+            name: '[name].[hash:8].[ext]',
+            outputPath: 'assets/images/'
           }
         }
       }
@@ -97,7 +97,7 @@ module.exports = merge(webapckBase, {
       canPrint: true
     }),
     new HtmlWebpackPlugin({
-      title: "React H5 TPL",
+      title: 'React H5 TPL',
       template: paths.HTML_TEMPLATE_PATH,
       hash: true,
       minify: {

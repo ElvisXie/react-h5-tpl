@@ -1,30 +1,30 @@
-const webpack = require("webpack");
-const WebpackBar = require("webpackbar");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
-const postcssPresetEnv = require("postcss-preset-env");
-const VConsolePlugin = require("vconsole-webpack-plugin");
-const paths = require("./paths");
+const webpack = require('webpack');
+const WebpackBar = require('webpackbar');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
+const postcssPresetEnv = require('postcss-preset-env');
+const VConsolePlugin = require('vconsole-webpack-plugin');
+const paths = require('./paths');
 
-const ENV = process.env.NODE_ENV || "local";
+const ENV = process.env.NODE_ENV || 'local';
 
 // 接收运行参数，类似：'webpack --debug'
 // eslint-disable-next-line
-const argv = require("yargs").describe("debug", "debug 环境").argv;
+const argv = require('yargs').describe('debug', 'debug 环境').argv;
 
 module.exports = {
-  target: "web",
+  target: 'web',
   context: paths.SOURCE_DIR,
 
-  entry: ["@babel/polyfill", "./index.jsx"],
+  entry: ['@babel/polyfill', './index.jsx'],
 
   output: {
     path: paths.OUTPUT_DIR,
     publicPath: paths.PUBLIC_PATH,
-    filename: "assets/[name].[hash:8].js",
-    libraryTarget: "umd"
+    filename: 'assets/[name].[hash:8].js',
+    libraryTarget: 'umd'
   },
 
   optimization: {
@@ -32,22 +32,22 @@ module.exports = {
       cacheGroups: {
         commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
+          name: 'vendors',
+          chunks: 'all'
         }
       }
     }
   },
 
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: ['.js', '.jsx'],
     modules: [
       // 优化模块查找路径
       paths.SOURCE_DIR,
       paths.NODE_MODULES_DIR // 指定node_modules所在位置 当你import 第三方模块时 直接从这个路径下搜索寻找
     ],
     alias: {
-      "@": paths.SOURCE_DIR
+      '@': paths.SOURCE_DIR
     }
   },
 
@@ -58,7 +58,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /[\\/]node_modules[\\/]/,
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         }
       },
       {
@@ -68,16 +68,16 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader"
+            loader: 'css-loader'
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               plugins: () => [
                 postcssFlexbugsFixes,
                 postcssPresetEnv({
                   autoprefixer: {
-                    flexbox: "no-2009"
+                    flexbox: 'no-2009'
                   },
                   stage: 3
                 })
@@ -86,7 +86,7 @@ module.exports = {
             }
           },
           {
-            loader: "less-loader"
+            loader: 'less-loader'
           }
         ]
       },
@@ -97,15 +97,15 @@ module.exports = {
         include: paths.NODE_MODULES_DIR,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          'css-loader',
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               plugins: () => [
                 postcssFlexbugsFixes,
                 postcssPresetEnv({
                   autoprefixer: {
-                    flexbox: "no-2009"
+                    flexbox: 'no-2009'
                   },
                   stage: 3
                 })
@@ -125,12 +125,12 @@ module.exports = {
       dry: false
     }),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(ENV)
+      'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
     new VConsolePlugin({ enable: !!argv.debug }),
     new MiniCssExtractPlugin({
-      filename: "assets/css/style.[hash:8].css",
-      chunkFilename: "assets/css/[id].[hash:8].css"
+      filename: 'assets/css/style.[hash:8].css',
+      chunkFilename: 'assets/css/[id].[hash:8].css'
     }),
     new CopyWebpackPlugin([{ from: paths.FAVICON_ICO_PATH }])
   ]

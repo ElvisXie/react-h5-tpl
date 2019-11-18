@@ -1,3 +1,3 @@
-import Global from "./globalReducer";
+import Global from './globalReducer';
 
 export default { Global };
