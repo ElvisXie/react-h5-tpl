@@ -140,6 +140,7 @@ module.exports = {
       filename: 'assets/css/style.[hash:8].css',
       chunkFilename: 'assets/css/[id].[hash:8].css'
     }),
-    new CopyWebpackPlugin([{ from: paths.FAVICON_ICO_PATH }])
+    new CopyWebpackPlugin([{ from: paths.FAVICON_ICO_PATH }]),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]
 };

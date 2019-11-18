@@ -76,6 +76,8 @@ module.exports = merge(webapckBase, {
     useLocalIp: true, // 允许浏览器使用本地 IP 打开
     port: process.env.PORT || 9999,
     publicPath: '/',
+    clientLogLevel: 'none',
+    quiet: true,
     contentBase: paths.SOURCE_DIR,
     open: true, // 自动打开页面
     hot: true, // 开启热更新
