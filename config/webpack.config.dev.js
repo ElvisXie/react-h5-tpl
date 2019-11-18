@@ -1,64 +1,17 @@
 const webpack = require("webpack");
-const WebpackBar = require("webpackbar");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
 const postcssPresetEnv = require("postcss-preset-env");
-const VConsolePlugin = require("vconsole-webpack-plugin");
 const paths = require("./paths");
+const webapckBase = require("./webpack.config.base");
 
-const ENV = process.env.NODE_ENV || "local";
-
-module.exports = {
+module.exports = merge(webapckBase, {
   mode: "development",
-  target: "web",
-  context: paths.SOURCE_DIR,
   devtool: "eval-source-map",
-
-  entry: ["@babel/polyfill", "./index.jsx"],
-
-  output: {
-    path: paths.OUTPUT_DIR,
-    publicPath: paths.PUBLIC_PATH,
-    filename: "assets/js/[name].[hash:8].js",
-    libraryTarget: "umd"
-  },
-
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
-        }
-      }
-    }
-  },
-
-  resolve: {
-    extensions: [".js", ".jsx"],
-    modules: [
-      // 优化模块查找路径
-      paths.SOURCE_DIR,
-      paths.NODE_MODULES_DIR // 指定 node_modules 所在位置 当你 import 第三方模块时直接从这个路径下搜索寻找
-    ],
-    alias: {
-      "@": paths.SOURCE_DIR
-    }
-  },
 
   module: {
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: paths.NODE_MODULES_DIR,
-        use: {
-          loader: "babel-loader"
-        }
-      },
       // 处理自己的 less
       {
         test: /\.less$/,
@@ -100,65 +53,6 @@ module.exports = {
         ]
       },
       {
-        // 专门针对 node_module 中的 less 处理
-        test: /\.less$/,
-        include: paths.NODE_MODULES_DIR,
-        use: [
-          {
-            loader: "style-loader",
-            options: {
-              injectType: "singletonStyleTag"
-            }
-          },
-          {
-            loader: "css-loader"
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              plugins: () => [
-                postcssFlexbugsFixes,
-                postcssPresetEnv({
-                  autoprefixer: {
-                    flexbox: "no-2009"
-                  },
-                  stage: 3
-                })
-              ],
-              sourceMap: true
-            }
-          },
-          {
-            loader: "less-loader"
-          }
-        ]
-      },
-      {
-        // 为避免有些第三方库提供的 CSS 没有做浏览器兼容性处理，在加载 node_moduels 中的 CSS 之前还要使用 postcss-loader 再统一处理一遍，
-        // 以确保所有进入生产环境的 CSS 都经过了相应的浏览器兼容性处理
-        test: /\.css$/,
-        include: paths.NODE_MODULES_DIR,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              plugins: () => [
-                postcssFlexbugsFixes,
-                postcssPresetEnv({
-                  autoprefixer: {
-                    flexbox: "no-2009"
-                  },
-                  stage: 3
-                })
-              ],
-              sourceMap: true
-            }
-          }
-        ]
-      },
-      {
         test: /\.(woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
         use: {
           loader: "url-loader"
@@ -168,23 +62,6 @@ module.exports = {
   },
 
   plugins: [
-    new WebpackBar(),
-    new CleanWebpackPlugin({
-      verbose: true,
-      dry: false
-    }),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(ENV)
-    }),
-    new VConsolePlugin({
-      filter: [], // 需要过滤的入口文件
-      enable: true // 发布代码前记得改回 false
-    }),
-    new MiniCssExtractPlugin({
-      filename: "assets/css/style.[hash:8].css",
-      chunkFilename: "assets/css/[id].[hash:8].css"
-    }),
-    new CopyWebpackPlugin([{ from: paths.FAVICON_ICO_PATH }]),
     new HtmlWebpackPlugin({
       title: "React H5 TPL",
       template: paths.HTML_TEMPLATE_PATH,
@@ -209,4 +86,4 @@ module.exports = {
       errors: true // server 有任何的错误，则在网页中蒙层加提示
     }
   }
-};
+});
