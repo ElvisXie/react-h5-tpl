@@ -1,3 +1,4 @@
+const os = require('os');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -6,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const VConsolePlugin = require('vconsole-webpack-plugin');
+const HappyPack = require('happypack');
 const paths = require('./paths');
 
 const ENV = process.env.NODE_ENV || 'local';
@@ -13,6 +15,9 @@ const ENV = process.env.NODE_ENV || 'local';
 // 接收运行参数，类似：'webpack --debug'
 // eslint-disable-next-line
 const argv = require('yargs').describe('debug', 'debug 环境').argv;
+
+// 根据我的系统的内核数量 指定线程池个数 也可以其他数量
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 module.exports = {
   target: 'web',
@@ -57,9 +62,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /[\\/]node_modules[\\/]/,
-        use: {
-          loader: 'babel-loader'
-        }
+        use: 'happypack/loader?id=happyBabel'
       },
       {
         // 专门针对 node_module 中的less处理
@@ -128,6 +131,11 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
     new VConsolePlugin({ enable: !!argv.debug }),
+    new HappyPack({
+      id: 'happyBabel',
+      threadPool: happyThreadPool,
+      loaders: ['babel-loader?cacheDirectory']
+    }),
     new MiniCssExtractPlugin({
       filename: 'assets/css/style.[hash:8].css',
       chunkFilename: 'assets/css/[id].[hash:8].css'
