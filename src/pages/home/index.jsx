@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { Toast, WhiteSpace } from 'antd-mobile';
 
 import styles from './index.less';
-
-const propTypes = {};
+import Logo from '@/assets/images/logo.svg';
 
 class Home extends Component {
-  static propTypes = propTypes;
+  handleHello = () => {
+    Toast.info('Hello~');
+  };
 
   render() {
-    return <div className={styles.wrap}>首页内容啊</div>;
+    return (
+      <div className={styles.wrap}>
+        <WhiteSpace size="lg" />
+        <div>首页内容啊</div>
+        <div>
+          {/* eslint-disable-next-line */}
+          <img src={Logo} alt=" " onClick={this.handleHello} />
+        </div>
+      </div>
+    );
   }
 }
 

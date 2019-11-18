@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const VConsolePlugin = require('vconsole-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const HappyPack = require('happypack');
 const paths = require('./paths');
 
@@ -131,6 +132,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
     new VConsolePlugin({ enable: !!argv.debug }),
+    new HardSourceWebpackPlugin(),
     new HappyPack({
       id: 'happyBabel',
       threadPool: happyThreadPool,

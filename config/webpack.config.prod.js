@@ -52,7 +52,7 @@ module.exports = merge(webapckBase, {
         ]
       },
       {
-        test: /\.(woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
+        test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
         use: {
           loader: 'file-loader',
           options: {

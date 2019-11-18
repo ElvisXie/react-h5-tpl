@@ -1,13 +1,13 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import { debounce } from 'lodash';
-// import { Toast } from "antd-mobile";
+import { Toast } from 'antd-mobile';
 import Native from '@/utils/native';
 import Config from './config';
 
 const debouncedFunction = debounce(
   (msg) => {
-    // Toast.fail(msg);
+    Toast.fail(msg);
     console.log(msg);
   },
   3500,
@@ -38,7 +38,7 @@ service.interceptors.request.use(
   },
   (error) => {
     console.error(error);
-    // Toast.fail(error.message);
+    Toast.fail(error.message);
     return Promise.reject(error);
   }
 );
