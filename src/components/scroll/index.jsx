@@ -7,15 +7,10 @@ import React, {
   useMemo
 } from 'react';
 import PropTypes from 'prop-types';
-import BScroll from '@better-scroll/core';
-import PullDown from '@better-scroll/pull-down';
-import Pullup from '@better-scroll/pull-up';
+import BScroll from 'better-scroll';
 import { debounce } from 'lodash';
 
 import styles from './index.less';
-
-BScroll.use(PullDown);
-BScroll.use(Pullup);
 
 const Scroll = forwardRef((props, ref) => {
   const [bScroll, setBScroll] = useState();
@@ -26,8 +21,8 @@ const Scroll = forwardRef((props, ref) => {
     direction,
     click,
     refresh,
-    pullUpLoading,
-    pullDownLoading,
+    // pullUpLoading,
+    // pullDownLoading,
     bounceTop,
     bounceBottom
   } = props;
@@ -152,8 +147,8 @@ Scroll.defaultProps = {
   click: true,
   refresh: true,
   onScroll: null,
-  pullUpLoading: false,
-  pullDownLoading: false,
+  // pullUpLoading: false,
+  // pullDownLoading: false,
   pullUp: null,
   pullDown: null,
   bounceTop: true,
@@ -168,8 +163,8 @@ Scroll.propTypes = {
   onScroll: PropTypes.func,
   pullUp: PropTypes.func,
   pullDown: PropTypes.func,
-  pullUpLoading: PropTypes.bool,
-  pullDownLoading: PropTypes.bool,
+  // pullUpLoading: PropTypes.bool,
+  // pullDownLoading: PropTypes.bool,
   // 当滚动超过边缘的时候会有一小段回弹动画。设置为 true 则开启动画
   bounceTop: PropTypes.bool, // 是否支持向上吸顶
   bounceBottom: PropTypes.bool // 是否支持向上吸顶
