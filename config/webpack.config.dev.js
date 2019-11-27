@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const paths = require('./paths');
@@ -67,6 +68,25 @@ module.exports = merge(webapckBase, {
       template: paths.HTML_TEMPLATE_PATH,
       inject: true, // script 标签的位置，true/body 为在 </body> 标签前，head 为在 <head> 里，false 表示页面不引入 js 文件
       hash: true // 是否为引入的 js 文件添加 hash 值
+    }),
+    // 配置生成 manifest.json 文件的规则（改配置必须保证是位于 HtmlWebpackPlugin 后面，否则注入 HTML 失败）
+    new WebpackPwaManifest({
+      name: 'React H5 Progressive Web App',
+      short_name: 'ReactPWA',
+      description: '基于React的移动端PWA应用',
+      background_color: '#ffffff',
+      filename: 'manifest.[hash:8].json',
+      icons: [
+        {
+          src: paths.LOGO_PATH,
+          sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+        }
+      ],
+      ios: {
+        'apple-mobile-web-app-title': 'ReactPWA',
+        'apple-mobile-web-app-status-bar-style': '#000',
+        'apple-mobile-web-app-capable': 'yes'
+      }
     }),
     new webpack.HotModuleReplacementPlugin() // 引入热更新插件
   ],

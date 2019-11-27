@@ -1,5 +1,6 @@
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -116,6 +117,25 @@ module.exports = merge(webapckBase, {
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true
+      }
+    }),
+    // 配置生成 manifest.json 文件的规则
+    new WebpackPwaManifest({
+      name: 'React H5 Progressive Web App',
+      short_name: 'ReactPWA',
+      description: '基于React的移动端PWA应用',
+      background_color: '#ffffff',
+      filename: 'manifest.[hash:8].json',
+      icons: [
+        {
+          src: paths.LOGO_PATH,
+          sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+        }
+      ],
+      ios: {
+        'apple-mobile-web-app-title': 'ReactPWA',
+        'apple-mobile-web-app-status-bar-style': '#000',
+        'apple-mobile-web-app-capable': 'yes'
       }
     })
   ]

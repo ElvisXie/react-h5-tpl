@@ -7,6 +7,7 @@ const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const VConsolePlugin = require('vconsole-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const HappyPack = require('happypack');
 const paths = require('./paths');
@@ -156,35 +157,72 @@ module.exports = {
       // 这里将js、css、还有图片资源分开缓存，可以区分缓存时间
       runtimeCaching: [
         {
-          urlPattern: /.*\.js.*/i,
+          urlPattern: /.*\.html.*/i,
           handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'app-tpl',
+            expiration: {
+              maxEntries: 20, // 最多缓存20个，超过的按照LRU原则删除
+              maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        {
+          urlPattern: /^https:\/\/cdn\.jsdelivr\.net*/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'app-static-libs',
+            expiration: {
+              maxEntries: 20, // 最多缓存20个，超过的按照LRU原则删除
+              maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        {
+          urlPattern: /.*\.js.*/i,
+          handler: 'CacheFirst',
           options: {
             cacheName: 'app-js',
             expiration: {
               maxEntries: 20, // 最多缓存20个，超过的按照LRU原则删除
               maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
             }
           }
         },
         {
           urlPattern: /.*css.*/,
-          handler: 'StaleWhileRevalidate',
+          handler: 'CacheFirst',
           options: {
             cacheName: 'app-css',
             expiration: {
               maxEntries: 30, // 最多缓存30个，超过的按照LRU原则删除
               maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
             }
           }
         },
         {
-          urlPattern: /\.(?:png|gif|jpg|jpeg|webp|svg)$/,
-          handler: 'StaleWhileRevalidate',
+          urlPattern: /\.(?:png|gif|jpg|jpeg|webp|svg|ico|bmp)$/,
+          handler: 'CacheFirst',
           options: {
             cacheName: 'app-image',
             expiration: {
               maxEntries: 30, // 最多缓存30个，超过的按照LRU原则删除
               maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
             }
           }
         }

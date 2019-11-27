@@ -4,7 +4,7 @@ export function register(config) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
         // 加上时间戳，防止被浏览器缓存
-        .register(`/service-worker.js?${Date.now()}`)
+        .register(`/service-worker.js?${Date.now()}`, { scope: '/' })
         .then((registration) => {
           console.log('SW registered: ', registration);
         })
