@@ -79,6 +79,7 @@
     "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2",
     "webpack-parallel-uglify-plugin": "^1.1.2",
-    "webpackbar": "^4.0.0"
+    "webpackbar": "^4.0.0",
+    "workbox-webpack-plugin": "^4.3.1"
   }
 }

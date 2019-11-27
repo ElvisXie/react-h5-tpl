@@ -2,6 +2,7 @@ const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
@@ -65,6 +66,10 @@ module.exports = merge(webapckBase, {
   },
 
   plugins: [
+    new CleanWebpackPlugin({
+      verbose: true,
+      dry: false
+    }),
     new ParallelUglifyPlugin({
       workerCount: 4,
       uglifyJS: {

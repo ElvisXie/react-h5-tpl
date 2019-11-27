@@ -2,12 +2,12 @@ const os = require('os');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const VConsolePlugin = require('vconsole-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const HappyPack = require('happypack');
 const paths = require('./paths');
 
@@ -29,7 +29,7 @@ module.exports = {
   output: {
     path: paths.OUTPUT_DIR,
     publicPath: paths.PUBLIC_PATH,
-    filename: 'assets/[name].[hash:8].js',
+    filename: 'assets/js/[name].[hash:8].js',
     libraryTarget: 'umd'
   },
 
@@ -124,10 +124,6 @@ module.exports = {
 
   plugins: [
     new WebpackBar(),
-    new CleanWebpackPlugin({
-      verbose: true,
-      dry: false
-    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
@@ -143,6 +139,56 @@ module.exports = {
       chunkFilename: 'assets/css/[id].[hash:8].css'
     }),
     new CopyWebpackPlugin([{ from: paths.FAVICON_ICO_PATH }]),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    // 忽略 moment 库中的语言包
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new WorkboxPlugin.GenerateSW({
+      cacheId: 'app-cache',
+
+      importWorkboxFrom: 'disabled', // 可填`cdn`,`local`,`disabled`,
+      importScripts: 'https://cdn.jsdelivr.net/npm/workbox-sw@4.3.1/build/workbox-sw.min.js',
+
+      skipWaiting: true, // 跳过 waiting 状态
+      clientsClaim: true, // 通知让新的 sw 立即在页面上取得控制权
+      cleanupOutdatedCaches: true, // 删除过时、老版本的缓存
+
+      include: [],
+      // 缓存规则，可用正则匹配请求，进行缓存
+      // 这里将js、css、还有图片资源分开缓存，可以区分缓存时间
+      runtimeCaching: [
+        {
+          urlPattern: /.*\.js.*/i,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'app-js',
+            expiration: {
+              maxEntries: 20, // 最多缓存20个，超过的按照LRU原则删除
+              maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            }
+          }
+        },
+        {
+          urlPattern: /.*css.*/,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'app-css',
+            expiration: {
+              maxEntries: 30, // 最多缓存30个，超过的按照LRU原则删除
+              maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            }
+          }
+        },
+        {
+          urlPattern: /\.(?:png|gif|jpg|jpeg|webp|svg)$/,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'app-image',
+            expiration: {
+              maxEntries: 30, // 最多缓存30个，超过的按照LRU原则删除
+              maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+            }
+          }
+        }
+      ]
+    })
   ]
 };
