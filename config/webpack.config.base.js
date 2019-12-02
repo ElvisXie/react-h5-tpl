@@ -7,6 +7,7 @@ const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const VConsolePlugin = require('vconsole-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const HappyPack = require('happypack');
@@ -129,6 +130,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
     new VConsolePlugin({ enable: !!argv.debug }),
+    new FriendlyErrorsWebpackPlugin(),
     new HardSourceWebpackPlugin(),
     new HappyPack({
       id: 'happyBabel',
