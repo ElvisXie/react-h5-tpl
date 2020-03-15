@@ -92,8 +92,8 @@ module.exports = merge(webapckBase, {
   ],
 
   devServer: {
-    host: '0.0.0.0', // 服务器的 ip 地址
-    useLocalIp: true, // 允许浏览器使用本地 IP 打开
+    // host: '0.0.0.0', // 服务器的 ip 地址
+    // useLocalIp: true, // 允许浏览器使用本地 IP 打开
     port: process.env.PORT || 9999,
     publicPath: '/',
     clientLogLevel: 'none',
