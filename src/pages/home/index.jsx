@@ -14,7 +14,7 @@ const Home = () => {
       <WhiteSpace size="lg" />
       <div>首页内容</div>
       {/* eslint-disable-next-line */}
-      <img src={Logo} alt=" " onClick={handleHello} />
+      <img src={Logo} alt="logo" onClick={handleHello} />
     </div>
   );
 };

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1,  user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- 根据 webpack 配置来决定应用是否可以被搜索引擎检索。更多信息请查阅：https://developers.google.cn/search/reference/robots_meta_tag?hl=zh-cn -->
     <% if (htmlWebpackPlugin.options.IS_SEO_ENABLED) { %>
     <meta name="robots" content="index, follow" />
@@ -12,7 +11,7 @@
     <% } %>
 
     <title>
-        <%= htmlWebpackPlugin.options.title %>
+      <%= htmlWebpackPlugin.options.title %>
     </title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
@@ -24,29 +23,28 @@
 
     <script src="//as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js" async></script>
     <script>
-        if ("addEventListener" in document) {
-            document.addEventListener(
-                "DOMContentLoaded",
-                function () {
-                    FastClick.attach(document.body);
-                },
-                false
-            );
-        }
-        if (!window.Promise) {
-            document.writeln(
-                '<script async src="//as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"' +
-                ">" +
-                "<" +
-                "/" +
-                "script>"
-            );
-        }
+      if ('addEventListener' in document) {
+        document.addEventListener(
+          'DOMContentLoaded',
+          function() {
+            FastClick.attach(document.body);
+          },
+          false
+        );
+      }
+      if (!window.Promise) {
+        document.writeln(
+          '<script async src="//as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"' +
+            '>' +
+            '<' +
+            '/' +
+            'script>'
+        );
+      }
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="root"></div>
-</body>
-
+  </body>
 </html>

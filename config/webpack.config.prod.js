@@ -8,6 +8,9 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const CssNano = require('cssnano');
+const CompressionPlugin = require('compression-webpack-plugin');
+// const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
 const paths = require('./paths');
 
 const webapckBase = require('./webpack.config.base');
@@ -67,6 +70,7 @@ module.exports = merge(webapckBase, {
   },
 
   plugins: [
+    new CompressionPlugin(),
     new CleanWebpackPlugin({
       verbose: true,
       dry: false
@@ -106,6 +110,9 @@ module.exports = merge(webapckBase, {
       title: 'React H5 TPL',
       template: paths.HTML_TEMPLATE_PATH,
       hash: true,
+      options: {
+        IS_SEO_ENABLED: true
+      },
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -125,6 +132,7 @@ module.exports = merge(webapckBase, {
       short_name: 'ReactPWA',
       description: '基于React的移动端PWA应用',
       background_color: '#ffffff',
+      theme_color: 'white',
       filename: 'manifest.[hash:8].json',
       icons: [
         {
@@ -137,6 +145,7 @@ module.exports = merge(webapckBase, {
         'apple-mobile-web-app-status-bar-style': '#000',
         'apple-mobile-web-app-capable': 'yes'
       }
-    })
+    }),
+    new OfflinePlugin()
   ]
 });

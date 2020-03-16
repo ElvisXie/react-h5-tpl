@@ -36,14 +36,9 @@ module.exports = {
   },
 
   optimization: {
+    runtimeChunk: true,
     splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
+      chunks: 'all'
     }
   },
 
@@ -130,6 +125,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(ENV)
     }),
     new VConsolePlugin({ enable: !!argv.debug }),
+
     new FriendlyErrorsWebpackPlugin(),
     new HardSourceWebpackPlugin(),
     new HappyPack({
@@ -159,7 +155,7 @@ module.exports = {
       // 这里将js、css、还有图片资源分开缓存，可以区分缓存时间
       runtimeCaching: [
         {
-          urlPattern: /.*\.html.*/i,
+          urlPattern: /\//,
           handler: 'StaleWhileRevalidate',
           options: {
             cacheName: 'app-tpl',

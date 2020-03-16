@@ -5,6 +5,8 @@ import 'normalize.css';
 import App from './App';
 import * as ServiceWorker from './serviceWorker';
 
+require('offline-plugin/runtime').install();
+
 const renderRoot = (Component) => {
   ReactDOM.render(<Component />, document.getElementById('root'));
 };
