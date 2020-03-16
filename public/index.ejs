@@ -3,12 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="This is an example of a React PWA SPA description. This will often show up in search results."
+    />
     <!-- 根据 webpack 配置来决定应用是否可以被搜索引擎检索。更多信息请查阅：https://developers.google.cn/search/reference/robots_meta_tag?hl=zh-cn -->
-    <% if (htmlWebpackPlugin.options.IS_SEO_ENABLED) { %>
+    <!-- <% if (htmlWebpackPlugin.options.IS_SEO_ENABLED) { %> -->
     <meta name="robots" content="index, follow" />
-    <% } else { %>
-    <meta name="robots" content="noindex, nofollow" />
-    <% } %>
+    <!-- <% } else { %> -->
+    <!-- <meta name="robots" content="noindex, nofollow" /> -->
+    <!-- <% } %> -->
 
     <title>
       <%= htmlWebpackPlugin.options.title %>
@@ -21,7 +25,8 @@
     <link rel="preload" href="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" as="script" />
     <% } %>
 
-    <script src="//as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js" async></script>
+    <!-- <script src="//as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js" async></script> -->
+    <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js" async></script>
     <script>
       if ('addEventListener' in document) {
         document.addEventListener(
@@ -45,6 +50,9 @@
   </head>
 
   <body>
+    <noscript>
+      您浏览器当前禁用了 JavaScript 脚本，为保证页面显示正常，请启用 JavaScript
+    </noscript>
     <div id="root"></div>
   </body>
 </html>

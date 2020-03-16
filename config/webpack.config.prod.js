@@ -1,3 +1,4 @@
+const path = require('path');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -9,7 +10,7 @@ const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssPresetEnv = require('postcss-preset-env');
 const CssNano = require('cssnano');
 const CompressionPlugin = require('compression-webpack-plugin');
-// const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const paths = require('./paths');
 
@@ -134,17 +135,31 @@ module.exports = merge(webapckBase, {
       background_color: '#ffffff',
       theme_color: 'white',
       filename: 'manifest.[hash:8].json',
+      inject: true,
       icons: [
         {
           src: paths.LOGO_PATH,
-          sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+          sizes: [128, 192], // multiple sizes
+          destination: path.join('icons', 'ios'),
+          ios: true
+        },
+        {
+          src: paths.LOGO_PATH,
+          sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+          destination: path.join('icons', 'android')
         }
       ],
-      ios: {
-        'apple-mobile-web-app-title': 'ReactPWA',
-        'apple-mobile-web-app-status-bar-style': '#000',
-        'apple-mobile-web-app-capable': 'yes'
-      }
+      ios: true
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      as(entry) {
+        if (/\.css$/.test(entry)) return 'style';
+        if (/\.woff$/.test(entry)) return 'font';
+        if (/\.(?:png|gif|jpg|jpeg|webp|svg|ico|bmp)$/.test(entry)) return 'image';
+        return 'script';
+      },
+      include: 'allChunks' // or 'initial', or 'allAssets'
     }),
     new OfflinePlugin()
   ]
